@@ -1,5 +1,4 @@
 from reader import ResumeReader
-import os
 import openai
 import api
 
