@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Hackasuly</title>
+    <link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cabin:700&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&amp;display=swap">
+</head>
+
+<body>
+    <header class="masthead" style="background: linear-gradient(123deg, #43cea2 0%, #185a9d 100%);">
+        <div class="intro-body" style="background: rgba(47,47,47,0);">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <h1 class="brand-heading" style="font-size: 90px;font-family: Roboto, sans-serif;width: 100%;">UPLOAD CV</h1>
+                        <p class="intro-text" style="font-family: Cabin, sans-serif;">And get an email as soon a company shortlists you</p>
+                        <form action="/uploader"
+                        method = "POST"
+                        enctype = "multipart/form-data">
+                            <input class="form-control" type="file" style="width: 50vw;font-family: Roboto, sans-serif;text-align: center; margin: auto;" name="file">
+                            <!-- <button class="btn border rounded-pill border-3" type="button" style="padding: 6px 23px;margin: 25px;color: rgb(255,255,255);" data-bs-toggle="submit">Upload</button> -->
+                            <input class="btn border rounded-pill border-3" style="padding: 6px 23px;margin: 25px;color: rgb(255,255,255);" type="submit">
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <script src="static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="static/js/grayscale.js"></script>
+</body>
+
+</html>
