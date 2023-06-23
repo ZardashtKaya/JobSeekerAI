@@ -51,7 +51,7 @@ def upload_file():
             print(a.get_info())
 
 
-            return "UPLOADED"
+            return a.get_info()
 
 if __name__ == "__main__":
     app.secret_key = 'super secret key'

@@ -1,5 +1,1 @@
 # JobSeekerAI
-
-test
-
-test2
