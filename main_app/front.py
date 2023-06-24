@@ -5,11 +5,14 @@ import sys
 from backend.Uploader.parser import ResumeParser
 import os
 import backend.openapi as aapi
+import openai
+from backend.DataParser.fetchtodb import Fetcher
+
 
 aapi.__init__()
+fetcher = Fetcher()
 
-
-UPLOAD_FOLDER = '../Resumes'
+UPLOAD_FOLDER = 'Resumes'
 ALLOWED_EXTENSIONS = {'pdf', 'docx'}
 
 app = Flask(__name__)
@@ -47,11 +50,46 @@ def upload_file():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            a = ResumeParser(file.filename)
-            print(a.get_info())
+            parsedCVText = ResumeParser(file.filename)
+            parsedCV = parsedCVText.get_info()
+
+            completion = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": """I will give you a resume of someone in the following format
+                Full Name: [name]
+                Email: [email]
+                Phone: [phone]
+                Address: [address]
+                [category]: [score in percentage from 0.0 to 1.0]
+                your job is to respond with only a comma seperated output for only the skills, so you only seperate the skills with a comma and no spaces between them. and if there are spelling mistakes fix those as well.
+                """},
+                {"role": "user", "content": parsedCV}])
+            skill_list = completion.choices[0].message.content.strip().split(',')
+            Fetcher.add_skill(skill_list)
+
+            completion = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": """I will give you a resume of someone in the following format
+                Full Name: [name]
+                Email: [email]
+                Phone: [phone]
+                Address: [address]
+                [category]: [score in percentage from 0.0 to 1.0]
+                your job is to put Full Name, Email, phone and address into the following format (name,email,phone) without the parantheses
+                """},
+                {"role": "user", "content": parsedCV}])
+            employee_info = completion.choices[0].message.content.strip().split(',')
+            # Fetcher.add_employee(employee_info)
+            Fetcher.add_rest(parsedCV,skill_list,employee_info)
+            
 
 
-            return a.get_info()
+            # Fetcher.get_skills()
+
+
+            return parsedCV
 
 if __name__ == "__main__":
     app.secret_key = 'super secret key'

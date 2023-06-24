@@ -2,7 +2,7 @@ from fetchtodb import Fetcher
 import openai
 # import openapi
 # openapi.__init__()
-
+a = Fetcher
 testdata="""Full Name: Zardasht Mudur
                 Email: ZardashtKaya@gmail.com
                 Phone: +964 (751) 101-4123
@@ -22,9 +22,7 @@ completion = openai.ChatCompletion.create(
                 [category]: [score in percentage from 0.0 to 1.0]
                 your job is to respond with only a comma seperated output for only the skills, so you only seperate the skills with a comma and no spaces between them.
                 """},
-                {"role": "user", "content": testdata}
-            ]
-        )
-
-Fetcher.add_skill(completion.choices[0].message.content.strip().split(','))
+                {"role": "user", "content": testdata}])
+test = completion.choices[0].message.content.strip().split(',')
+a.add_skill(test)
 Fetcher.get_skills()
