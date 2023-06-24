@@ -34,6 +34,37 @@ def index(name=None):
 def findjobs():
     return render_template("Find Jobs.html")
 
+@app.route("/FindEmployee")
+def findemployees():
+    return render_template("Find employee.html")
+
+@app.route("/Mailed")
+def mailed():
+    return render_template("Mailed.html")
+
+@app.route("/Candidates", methods = ['GET', 'POST'])    
+def candidates():
+    if request.method == 'POST':
+        data = request.form
+        needed_position=data.get('position')
+        needed_skills=data.get('skills')
+        # search in database for id of that skill in skill table
+        skill = fetcher.get_skill(needed_position)
+        skill_id = skill[0]
+        
+        employee_id = fetcher.get_employee_id(skill_id)[0][0]
+        employee_skill_id = fetcher.get_employee_id(skill_id)[1][0]
+        
+        
+        candidate = fetcher.get_top_skills_by_rating(employee_skill_id)
+        # search in employee_skill table for employee_id with that skill_id
+        employee = fetcher.get_employee(employee_id)
+    
+
+
+
+        return render_template("Candidates.html", name=employee[1],skill1=skill[1], skill2=skill2,skill3=skill3,skill4=skill4,skill5=skill5)
+
 @app.route("/uploader", methods = ['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
@@ -89,7 +120,7 @@ def upload_file():
             # Fetcher.get_skills()
 
 
-            return parsedCV
+            return render_template("/Mailed")
 
 if __name__ == "__main__":
     app.secret_key = 'super secret key'

@@ -71,6 +71,41 @@ class Fetcher:
         cur.execute('select * from skill')
         return cur.fetchall()
     
+    def get_rating(emp_skill_id):
+        cur.execute("SELECT rating FROM employee_skill WHERE employee_skill_id = ?", (emp_skill_id,))
+        return cur.fetchone()
+    
+    @staticmethod
+    def get_top_skills_by_rating(emp_skill_id):
+        # sort top skills by percentage where employee_skill_id in rating table
+        cur.execute("SELECT * FROM rating WHERE employee_skill_id = ? ORDER BY rating_percentage DESC", (emp_skill_id,))
+        
+        
+        return cur.fetchall()
+    
+    @staticmethod
+    def get_employee(emp_id):
+        cur.execute("SELECT * FROM employee WHERE employee_id = ?", (emp_id,))
+        return cur.fetchone()
+    
+    @staticmethod
+    def get_employee_id(skill_id):
+        con.commit()
+        cur.execute("SELECT employee_id FROM employee_skill WHERE skill_id = ?", (skill_id,))
+        emp_id=cur.fetchone()
+        con.commit()
+        cur.execute("SELECT employee_skill_id FROM employee_skill WHERE skill_id = ?", (skill_id,))
+        emp_skill_id=cur.fetchone()
+        return [emp_id,emp_skill_id]
+   
+        
+    @staticmethod
+    def get_skill(skillname):
+
+        # use LIKE
+        cur.execute("SELECT * FROM skill WHERE skill_name LIKE ?", ('%'+skillname+'%',))
+        return cur.fetchone()
+    
     def add_employee(info):
         info = info.split(',')
         info = [i.strip() for i in info]
