@@ -44,26 +44,26 @@ def mailed():
 
 @app.route("/Candidates", methods = ['GET', 'POST'])    
 def candidates():
-    if request.method == 'POST':
-        data = request.form
-        needed_position=data.get('position')
-        needed_skills=data.get('skills')
-        # search in database for id of that skill in skill table
-        skill = fetcher.get_skill(needed_position)
-        skill_id = skill[0]
+    # if request.method == 'POST':
+    #     data = request.form
+    #     needed_position=data.get('position')
+    #     needed_skills=data.get('skills')
+    #     # search in database for id of that skill in skill table
+    #     skill = fetcher.get_skill(needed_position)
+    #     skill_id = skill[0]
         
-        employee_id = fetcher.get_employee_id(skill_id)[0][0]
-        employee_skill_id = fetcher.get_employee_id(skill_id)[1][0]
+    #     employee_id = fetcher.get_employee_id(skill_id)[0][0]
+    #     employee_skill_id = fetcher.get_employee_id(skill_id)[1][0]
         
         
-        candidate = fetcher.get_top_skills_by_rating(employee_skill_id)
-        # search in employee_skill table for employee_id with that skill_id
-        employee = fetcher.get_employee(employee_id)
-    
+    #     candidate = fetcher.get_top_skills_by_rating(employee_skill_id)
+    #     # search in employee_skill table for employee_id with that skill_id
+    #     employee = fetcher.get_employee(employee_id)
+    #     phone=employee[3]
 
 
 
-        return render_template("Candidates.html", name=employee[1],skill1=skill[1], skill2=skill2,skill3=skill3,skill4=skill4,skill5=skill5)
+        return render_template("Candidates.html")
 
 @app.route("/uploader", methods = ['GET', 'POST'])
 def upload_file():
